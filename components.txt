@@ -1,0 +1,230 @@
+/*loadData(username: string) {
+    this.apiService.getReposWithPagination(username, this.currentPage, this.itemsPerPage)
+      .subscribe((repos: any) => {
+        this.repositoryData = repos;
+        console.log(this.repositoryData);
+      });
+  }*/
+
+
+ /* loadData(username: string) {
+
+    this.apiService.getReposWithPagination(username, this.currentPage, this.itemsPerPage)
+      .subscribe((repos: any) => {
+        this.repositoryData = repos;
+        console.log(this.repositoryData);
+  
+        
+        const linkHeader = repos.headers.get('Link');
+        if (linkHeader) {
+          const nextLink = linkHeader.split(',').find((link: string) => link.includes('rel="next"'));
+
+          
+          if (nextLink) {
+            const match = /<([^>]+)>/.exec(nextLink);
+            if (match) {
+              this.nextPageUrl = match[1];
+            } else {
+              this.nextPageUrl = null;
+            }
+          } else {
+            this.nextPageUrl = null;
+          }
+        } else {
+          this.nextPageUrl = null;
+        }
+      });
+  }*/
+
+  /*loadData(username: string) {
+    this.apiService.getReposWithPagination(username, this.currentPage, this.itemsPerPage)
+      .subscribe((repos: any) => {
+        if (repos) {
+          this.repositoryData = repos;
+          console.log(repos);
+          console.log(this.repositoryData);
+          const linkHeader = repos.headers.get('Link');
+          console.log(linkHeader);
+          if (linkHeader) {
+            const nextLink = linkHeader.split(',').find((link: string) => link.includes('rel="next"'));
+  
+            if (nextLink) {
+              const match = /<([^>]+)>/.exec(nextLink);
+              if (match) {
+                this.nextPageUrl = match[1];
+              } else {
+                this.nextPageUrl = null;
+              }
+            } else {
+              this.nextPageUrl = null;
+            }
+          } else {
+            this.nextPageUrl = null;
+          }
+        }
+      });
+  }*/
+
+
+  /*loadData(username: string) {
+    this.apiService.getReposWithPagination(username, this.currentPage, this.itemsPerPage)
+      .subscribe((response: HttpResponse<any[]>) => {
+        this.repositoryData = response.body; // Get the response data
+        console.log(this.repositoryData);
+  
+        const linkHeader = response.headers.get('Link'); // Access the Link header
+        console.log(linkHeader);
+  
+        if (linkHeader) {
+          const nextLink = linkHeader.split(',').find((link: string) => link.includes('rel="next"'));
+          
+          if (nextLink) {
+            const match = /<([^>]+)>/.exec(nextLink);
+            if (match) {
+              this.nextPageUrl = match[1];
+            } else {
+              this.nextPageUrl = null;
+            }
+          } else {
+            this.nextPageUrl = null;
+          }
+        } else {
+          this.nextPageUrl = null;
+        }
+      });
+  }*/
+
+
+  /*loadData(username: string) {
+    this.apiService.getReposWithPagination(username, this.currentPage, this.itemsPerPage)
+      .subscribe((response: any) => {
+        this.repositoryData = response; 
+        console.log(this.repositoryData);
+  
+        //const linkHeader = this.apiService.extractLinkHeader(response);
+        const linkHeader = this.apiService.extractLinkHeader(response);
+        //const linkHeader = response.headers.get('Link');
+        console.log(linkHeader);
+  
+        if (linkHeader) {
+          const nextLink = linkHeader.split(',').find((link: string) => link.includes('rel="next"'));
+          
+          if (nextLink) {
+            const match = /<([^>]+)>/.exec(nextLink);
+            if (match) {
+              this.nextPageUrl = match[1];
+            } else {
+              this.nextPageUrl = null;
+            }
+          } else {
+            this.nextPageUrl = null;
+          }
+        } else {
+          this.nextPageUrl = null;
+        }
+      });
+  }*/
+
+
+
+
+  
+  /*onSubmit() {
+    
+    const username = this.githubForm.get('username')?.value;
+    this.loadData(username);
+  }*/
+
+
+
+  /*nextPage() {
+    this.currentPage++;
+    this.loadData(this.inputUsername);
+  }*/
+
+  /*nextPage() {
+    if (this.currentPage > 1) {
+      this.currentPage++;
+      this.loadData(this.inputUsername); // Pass the username here
+    }
+  }*/
+
+  /*nextPage() {
+    if (this.nextPageUrl) {
+      console.log('Next button clicked');
+      this.loadingData = true;
+      this.apiService.getReposWithNextPage(this.nextPageUrl)
+        .subscribe((repos: any) => {
+          this.repositoryData = repos;
+          this.loadingData = false;
+          console.log(this.repositoryData);
+  
+          // Extract and store the next page URL from the Link header
+          const linkHeader = repos.headers.get('Link');
+          if (linkHeader) {
+            //const nextLink = linkHeader.split(',').find(link => link.includes('rel="next"'));
+            const nextLink = linkHeader.split(',').find((link: string) => link.includes('rel="next"'));
+            if (nextLink) {
+              const match = /<([^>]+)>/.exec(nextLink);
+              if (match) {
+                this.nextPageUrl = match[1];
+              } else {
+                this.nextPageUrl = null;
+              }
+            } else {
+              this.nextPageUrl = null;
+            }
+          } else {
+            this.nextPageUrl = null;
+          }
+        });
+    }
+  }*/
+
+  /*nextPage() {
+    if (this.currentPage > 1) {
+      this.currentPage++;
+      const username = this.inputUsername;
+      const nextPageUrl = `https://api.github.com/users/${username}/repos?page=${this.currentPage}&per_page=${this.itemsPerPage}`;
+      this.loadingData = true;
+
+      this.apiService.getReposWithNextPage(nextPageUrl).subscribe(
+        (repos: any) => {
+          this.repositoryData = repos;
+          this.loadingData = false;
+        },
+        (error) => {
+          this.errorLoadingData = 'Failed to load data.';
+          this.loadingData = false;
+        }
+      );
+    }
+  }*/
+
+  /*nextPage() {
+    console.log('Next button clicked');
+    if (this.currentPage >= 1) {
+
+      this.currentPage++;
+      const username = this.inputUsername;
+      console.log("Hello");
+      console.log(username);
+      const nextPageUrl = `https://api.github.com/users/${username}/repos?page=${this.currentPage}&per_page=${this.itemsPerPage}`;
+      this.loadingData = true;
+  
+      this.apiService.getReposWithNextPage(nextPageUrl).subscribe(
+        (repos: any) => {
+          
+          this.repositoryData = this.repositoryData.concat(repos);
+          this.loadingData = false;
+        },
+        (error) => {
+          this.errorLoadingData = 'Failed to load data.';
+          this.loadingData = false;
+        }
+      );
+    }
+  }*/
+
+
+  

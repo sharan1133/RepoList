@@ -1,0 +1,230 @@
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from './services/api.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent implements OnInit{
+  repositoryData: any;
+  inputUsername: string = '';
+  githubForm: FormGroup;
+
+  /*constructor(
+    private apiService: ApiService
+  ) {} */
+
+  constructor(private apiService: ApiService, private fb: FormBuilder) {
+    this.githubForm = this.fb.group({
+      username: ['', Validators.required]
+    });
+  }
+
+  ngOnInit() {
+    //this.apiService.getUser('sharan1133').subscribe(console.log);
+
+    //const githubUsername = 'karpathy'; 
+    //this.apiService.getRepos(githubUsername).subscribe(repos => {
+      //console.log('User Repositories:', repos);
+    
+    //});
+}
+
+/*onUsernameInput() {
+  
+  const username = this.githubForm.get('username')?.value;
+  if (username) {
+    this.inputUsername = username;
+    this.apiService.getRepos(username).subscribe(repos => {
+      this.repositoryData = repos;
+      console.log(this.repositoryData);
+    });
+  } else {
+    this.repositoryData = null; 
+  }
+}*/
+
+onUsernameInput() {
+  const username = this.githubForm.get('username')?.value;
+  if (username) {
+    this.apiService.getRepos(username).subscribe(repos => {
+      this.repositoryData = repos.map((repo: any) => {
+        
+        return {
+          ...repo,
+          topics: repo.topics || [] 
+        };
+        
+      });
+      
+    });
+  } else {
+    this.repositoryData = null;
+  }
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent implements OnInit {
+  githubForm: FormGroup;
+  repositoryData: any[] = [];
+  inputUsername: string = '';
+  currentPage: number = 1; 
+  itemsPerPage: number = 10; 
+
+  constructor(private apiService: ApiService, private fb: FormBuilder) {
+    this.githubForm = this.fb.group({
+      username: ['', Validators.required]
+    });
+  }
+
+  onUsernameInput() {
+    const username = this.githubForm.get('username')?.value;
+    if (username) {
+      this.currentPage = 1; 
+      this.fetchRepositories(username);
+    } else {
+      this.repositoryData = [];
+    }
+  }
+
+  fetchRepositories(username: string) {
+    this.apiService.getReposWithPagination(username, this.currentPage, this.itemsPerPage)
+      .subscribe(
+        (response: any) => {
+          if (response && Array.isArray(response)) {
+            this.repositoryData = response.map((repo: any) => {
+              return {
+                ...repo,
+                topics: repo.topics || []
+              };
+            });
+            console.log(this.repositoryData);
+          } else {
+            
+            console.error('Invalid response:', response);
+          }
+        },
+        (error) => {
+          console.error('API request failed:', error);
+          
+        }
+      );
+  }
+
+  
+  nextPage() {
+    this.currentPage++;
+    this.fetchRepositories(this.inputUsername);
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.fetchRepositories(this.inputUsername);
+    }
+  }
+
+  ngOnInit() {
+   
+  }
+}
+
+
+
+
+
+
+<div class="grid h-screen place-items-center">
+  <div class="font-bold text-3xl">
+    Fyle Internship Challenge
+  </div>
+
+  <form [formGroup]="githubForm" (ngSubmit)="onUsernameInput()">
+    <div>
+      <label for="githubUsername">GitHub Username:</label>
+      <input id="githubUsername" formControlName="username" />
+    </div>
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+
+  <!--<div *ngIf="repositoryData">
+    <h2>Repositories for {{ inputUsername }}</h2>
+    <ul>
+      <li *ngFor="let repo of repositoryData">
+        <a [href]="repo.html_url" target="_blank">{{ repo.name }}</a>
+      </li>
+    </ul>
+  </div>
+</div>-->
+
+<!--<div *ngIf="repositoryData">
+  <h2>Repositories for {{ inputUsername }}</h2>
+  <ul>
+    <li *ngFor="let repo of repositoryData">
+      <a [href]="repo.html_url" target="_blank">{{ repo.name }}</a>
+      <p>Topics: {{ repo.topics.join(', ') }}</p>
+    </li>
+  </ul>
+</div>-->
+
+<div *ngIf="repositoryData">
+  <h2>Repositories for {{ inputUsername }}</h2>
+  <div *ngFor="let repo of repositoryData">
+    <div class="repository-container">
+      <h3><a [href]="repo.html_url" target="_blank">{{ repo.name }}</a></h3>
+      <p>Topics: {{ repo.topics.join(', ') || 'No topics' }}</p>
+    </div>
+  </div>
+
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="currentPage === 1">Previous Page</button>
+    <button (click)="nextPage()">Next Page</button>
+  </div>
+</div>
+
+
+
+
+
+
+ //"outputPath": "dist/fyle-frontend-challenge",
