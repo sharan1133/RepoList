@@ -18,7 +18,7 @@ Before you begin, make sure you have the following prerequisites installed on yo
    - Open your terminal and run the following command to clone the GitHub Repository List repository to your local machine:
 
    ```bash
-   git clone https://github.com/yourusername/github-repo-list.git
+   git clone https://github.com/sharan1133/RepoList.git
 
 2. **Navigate to the project directory**:
 
@@ -34,8 +34,8 @@ Before you begin, make sure you have the following prerequisites installed on yo
 
 4. **To run the application execute the command**:
 
-  ```bash
-   ng serve
+    ```bash
+       ng serve
 
 5. **Access the application**:
    - In the browser's address bar, input the subsequent URL and press Enter:
