@@ -1,6 +1,6 @@
 ## Demo ##
 
-Demo
+
 Users can try out the demo of the application by clicking the URL:
 <https://sharan1133.github.io/RepoList/docs/>
 
@@ -24,17 +24,17 @@ Before you begin, make sure you have the following prerequisites installed on yo
 
    - Employ the cd command to access the project directory:
 
-   '''bash
-   cd github-repo-list
+   ```bash
+      cd github-repo-list
 
 3. **Install Project dependencies**:
 
-  '''bash
+  ```bash
     npm install
 
 4. **To run the application execute the command**:
 
-  '''bash
+  ```bash
    ng serve
 
 5. **Access the application**:
